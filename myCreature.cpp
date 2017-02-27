@@ -51,6 +51,11 @@ void MyCreature::draw()
 	setAmbientColor(.1f,.1f,.1f);
 	setDiffuseColor(COLOR_GREEN);
 	glPushMatrix();
+
+	// printf("%d\n", (int)VAL(DRAW_LEVEL));
+	int level_of_detail = (int)VAL(DRAW_LEVEL);
+	
+	
 	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
 
 		glPushMatrix();
@@ -134,6 +139,7 @@ void initControls(ModelerControl* controls)
 	controls[WAIST_ROTATION_Y] = ModelerControl("Waist rotation Y", -90, 90, 0.01f, 0);
 	controls[WAIST_ROTATION_Z] = ModelerControl("Waist rotation Z", -30, 30, 0.01f, 0);
 
+	controls[DRAW_LEVEL] = ModelerControl("Level of details", 0, 5, 1, 5);
 }
 
 void changeLight()
@@ -162,6 +168,7 @@ void changeLight()
 
 	if (VAL(ENABLE_LIGHT))
 	{
+		// printf("dd%d\n", (int)VAL(ENABLE_LIGHT));
 		// printf("enable the light...\n");
 		setDiffuseColor(1.0, 1.0, 1.0);
 		// light source 0
