@@ -34,6 +34,8 @@ private:
 // callback functions for saving the position of the model.
   inline void cb_SavePos_i(Fl_Menu_*, void*);
   static void cb_SavePos(Fl_Menu_*, void*);
+  inline void cb_loadTex_i(Fl_Menu_ *, void *);
+  static void cb_loadTex(Fl_Menu_*, void*); 
   inline void cb_OpenPos_i(Fl_Menu_*, void*);
   static void cb_OpenPos(Fl_Menu_*, void*);
 
@@ -76,5 +78,7 @@ private:
 public:
   ModelerView *m_modelerView;
   void show();
+
+  char* textureFile;
 };
 #endif

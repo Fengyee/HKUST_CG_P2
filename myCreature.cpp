@@ -3,6 +3,7 @@
 #include "modelerview.h"
 #include "modelerapp.h"
 #include "modelerdraw.h"
+#include "modelerui.h"
 #include <FL/gl.h>
 
 #include "modelerglobals.h"
@@ -10,13 +11,18 @@
 // function declaration
 void initControls(ModelerControl* controls);
 void changeLight();
+void createTexture(int width); 
+
+
 // To make a MyCreature, we inherit off of ModelerView
 class MyCreature : public ModelerView 
 {
 public:
     MyCreature(int x, int y, int w, int h, char *label) 
         : ModelerView(x,y,w,h,label) { }
-
+	GLuint texName;
+	
+	void createTexture(int _width);
     virtual void draw();
 };
 
@@ -140,6 +146,7 @@ void initControls(ModelerControl* controls)
 	controls[WAIST_ROTATION_Z] = ModelerControl("Waist rotation Z", -30, 30, 0.01f, 0);
 
 	controls[DRAW_LEVEL] = ModelerControl("Level of details", 0, 5, 1, 5);
+	controls[DRAW_TEXTURE] = ModelerControl("Draw texture", 0, 1, 1, 0);
 }
 
 void changeLight()
@@ -183,5 +190,53 @@ void changeLight()
 			VAL(LIGHT1_Y) - lightSensitivity, VAL(LIGHT1_Z) - lightSensitivity);
 		drawBox(lightDimension[0], lightDimension[1], lightDimension[2]);
 		glPopMatrix();
+	}
+}
+
+void MyCreature::createTexture(int _width)
+{
+	static int width = 0;
+	static int height = 0;
+
+	ModelerUserInterface* mui = ModelerApplication::Instance()->getModelerUI();
+	if (mui->textureFile == NULL)
+	{
+		unsigned char *image = readBMP(mui->textureFile, width, height);
+		if (image == NULL)
+		{
+			fl_alert("Can't load bitmap file...");
+			ModelerApplication::Instance()->SetControlValue(DRAW_TEXTURE, 0);
+			return;
+		}
+
+		glClearColor(0.0, 0.0, 0.0, 0.0);
+		glShadeModel(GL_FLAT);
+		glEnable(GL_DEPTH_TEST);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glGenTextures(1, &texName);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	}
+
+	// Need modified 
+	if (_width <= 0) _width = width;
+	if (width > 0 && height > 0)
+	{
+		double hwfactor = height / (double)width;
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+		glBindTexture(GL_TEXTURE_2D, texName);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 0.0); glVertex3f(0.0, 0.0, 0.0);
+		glTexCoord2f(0.0, 1.0); glVertex3f(0.0, _width * hwfactor, 0.0);
+		glTexCoord2f(1.0, 1.0); glVertex3f(_width, _width * hwfactor, 0.0);
+		glTexCoord2f(1.0, 0.0); glVertex3f(_width, 0.0, 0.0);
+		glEnd();
+		glFlush();
+		glDisable(GL_TEXTURE_2D);
 	}
 }

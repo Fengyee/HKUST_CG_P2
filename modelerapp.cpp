@@ -152,6 +152,11 @@ void ModelerApplication::SetControlValue(int controlNumber, double value)
     m_controlValueSliders[controlNumber]->value(value);
 }
 
+ModelerUserInterface * ModelerApplication::getModelerUI()
+{
+	return m_ui;
+}
+
 void ModelerApplication::ShowControl(int controlNumber)
 {
     m_controlLabelBoxes[controlNumber]->show();

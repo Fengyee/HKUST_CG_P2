@@ -127,7 +127,25 @@ void ModelerUserInterface::cb_SavePos(Fl_Menu_* o, void* v) {
 	((ModelerUserInterface*)(o->parent()->user_data()))->cb_SavePos_i(o,v);
 }
 
-inline void ModelerUserInterface::cb_OpenPos_i(Fl_Menu_*, void*) {
+inline void ModelerUserInterface::cb_loadTex_i(Fl_Menu_* o, void*) {
+	char *filename = NULL;
+	filename = fl_file_chooser("Open .bmp File", "*.bmp", NULL);
+
+	if (filename)
+	{
+		if (textureFile != NULL)
+		{
+			delete[] textureFile;
+		}
+		textureFile = filename;
+	};
+}
+
+void ModelerUserInterface::cb_loadTex(Fl_Menu_* o, void* v) {
+	((ModelerUserInterface*)(o->parent()->user_data()))->cb_loadTex_i(o, v);
+}
+
+inline void ModelerUserInterface::cb_OpenPos_i(Fl_Menu_* o, void* v) {
 	char *filename = NULL;
 	filename = fl_file_chooser("Open .pos File", "*.pos", NULL);
 
@@ -251,7 +269,8 @@ Fl_Menu_Item ModelerUserInterface::menu_m_controlsMenuBar[] = {
  {"Save Raytracer File", 0,  (Fl_Callback*)ModelerUserInterface::cb_Save, 0, 0, 0, 0, 14, 0},
  {"Save Bitmap File", 0,  (Fl_Callback*)ModelerUserInterface::cb_Save1, 0, 128, 0, 0, 14, 0},
  {"Open Position File", 0, (Fl_Callback*)ModelerUserInterface::cb_OpenPos, 0, 0, 0, 0, 14, 0},
- {"Save Position File", 0, (Fl_Callback*)ModelerUserInterface::cb_SavePos, 0, 128, 0, 0, 14, 0},
+ {"Save Position File", 0, (Fl_Callback*)ModelerUserInterface::cb_SavePos, 0, 128, 0, 0, 14, 0 },
+ {"Load Texture File", 0, (Fl_Callback*)ModelerUserInterface::cb_loadTex, 0, 0, 0, 0, 14, 0 },
  {"Exit", 0,  (Fl_Callback*)ModelerUserInterface::cb_Exit, 0, 0, 0, 0, 14, 0},
  {0},
  {"View", 0,  0, 0, 64, 0, 0, 14, 0},
@@ -292,6 +311,7 @@ void ModelerUserInterface::cb_m_modelerWindow(Fl_Window* o, void* v) {
 }
 
 ModelerUserInterface::ModelerUserInterface() {
+	textureFile = NULL;
   Fl_Window* w;
   { Fl_Window* o = m_controlsWindow = new Fl_Window(395, 326, "CS 341 Modeler (SP02)");
     w = o;
