@@ -167,16 +167,16 @@ void ModelerUserInterface::cb_OpenPos(Fl_Menu_* o, void* v) {
 }
 
 inline void ModelerUserInterface::cb_Exit_i(Fl_Menu_*, void*) {
-  m_controlsWindow->hide();
-m_modelerWindow->hide();
+	m_controlsWindow->hide();
+	m_modelerWindow->hide();
 }  
 void ModelerUserInterface::cb_Exit(Fl_Menu_* o, void* v) {
   ((ModelerUserInterface*)(o->parent()->user_data()))->cb_Exit_i(o,v);
 }
 
 inline void ModelerUserInterface::cb_Normal_i(Fl_Menu_*, void*) {
-  setDrawMode(NORMAL);
-m_modelerView->redraw();
+	setDrawMode(NORMAL);
+	m_modelerView->redraw();
 }
 void ModelerUserInterface::cb_Normal(Fl_Menu_* o, void* v) {
   ((ModelerUserInterface*)(o->parent()->user_data()))->cb_Normal_i(o,v);
