@@ -178,9 +178,34 @@ void Camera::applyViewingTransform() {
 
 	// Place the camera at mPosition, aim the camera at
 	// mLookAt, and twist the camera such that mUpVector is up
-	gluLookAt(	mPosition[0], mPosition[1], mPosition[2],
-				mLookAt[0],   mLookAt[1],   mLookAt[2],
-				mUpVector[0], mUpVector[1], mUpVector[2]);
+	// gluLookAt(	mPosition[0], mPosition[1], mPosition[2],
+				// mLookAt[0],   mLookAt[1],   mLookAt[2],
+				// mUpVector[0], mUpVector[1], mUpVector[2]);
+	lookAt(mPosition,
+			mLookAt,
+			mUpVector);
+}
+
+void Camera::lookAt(Vec3f eye, Vec3f at, Vec3f up)
+{
+	// self implemented gluLookAt function
+	// The origin (eye) is projected into this coordinate system, and inserted, along with the axes, into a 4x4 homogeneous view matrix
+	Vec3f camera_nz(at - eye);
+	camera_nz.normalize();
+	up.normalize();
+	// Then calculate the camera_x direction
+	Vec3f camera_x = camera_nz ^ up;
+	camera_x.normalize();
+	Vec3f camera_y = camera_x ^ camera_nz;
+
+	Mat4f TransformM(camera_x[0], camera_x[1], camera_x[2], 0,
+		camera_y[0], camera_y[1], camera_y[2], 0,
+		-camera_nz[0], -camera_nz[1], -camera_nz[2], 0,
+		0, 0, 0, 1);
+	GLfloat tmp[16];
+	TransformM.getGLMatrix(tmp);
+	glMultMatrixf(tmp);
+	glTranslated(-eye[0], -eye[1], -eye[2]);
 }
 
 #pragma warning(pop)
