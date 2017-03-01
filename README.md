@@ -21,13 +21,26 @@
 ***
 Bells and whistles:
 
-- [x]  Change the default light source to illuminate your scene more dramatically.
+- [x]  [Fengyee] Change the default light source to illuminate your scene more dramatically.
 
-    - [x]  Allow for adjustable levels of detail for your character. You will need to add a UI control for this.
+    - [x]  [Fengyee] Allow for adjustable levels of detail for your character. You will need to add a UI control for this.
 
         - [ ] Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.
 
-- [ ]  [Fengyee] Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.)
+- [x]     Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) 
+        
+        ```c++
+        // This is a simple quard texture and usage is:
+
+        if ((int)VAL(DRAW_TEXTURE))
+        {
+            glPushMatrix();
+            glTranslated(0, 0, 0);
+            // The param is the width of the texture
+            createTexture(5);
+            glPopMatrix();
+        }
+        ```
 
     - [ ]  [Fengyee] Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them.
 

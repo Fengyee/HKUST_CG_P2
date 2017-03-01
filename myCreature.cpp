@@ -11,16 +11,15 @@
 // function declaration
 void initControls(ModelerControl* controls);
 void changeLight();
-void createTexture(int width); 
-
 
 // To make a MyCreature, we inherit off of ModelerView
 class MyCreature : public ModelerView 
 {
 public:
     MyCreature(int x, int y, int w, int h, char *label) 
-        : ModelerView(x,y,w,h,label) { }
+        : ModelerView(x,y,w,h,label), textureImage(NULL) { }
 	GLuint texName;
+	unsigned char* textureImage;
 	
 	void createTexture(int _width);
     virtual void draw();
@@ -58,30 +57,34 @@ void MyCreature::draw()
 	setDiffuseColor(COLOR_GREEN);
 	glPushMatrix();
 
-	// printf("%d\n", (int)VAL(DRAW_LEVEL));
 	int level_of_detail = (int)VAL(DRAW_LEVEL);
-	
-	
 	glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
-
+	if ((int)VAL(DRAW_TEXTURE))
+	{
 		glPushMatrix();
+		glTranslated(0, 0, 0);
+		createTexture(5);
+		glPopMatrix();
+	}
+	glPushMatrix();
 		glTranslated(-1.5, 0, -2);
 		glScaled(3, 1, 4);
 		drawBox(1,1,1);
+		
 		glPopMatrix();
 
 		// draw cannon
 		glPushMatrix();
 		glRotated(1, 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0.0, 0.0);
-		drawCylinder(20, 0.1, 0.1);
+		drawCylinder(2, 0.1, 0.1);
 
 		glTranslated(0.0, 0.0,10);
 		drawCylinder(1, 1.0, 0.9);
 
 		glTranslated(0.0, 0.0, 0.5);
 		glRotated(90, 1.0, 0.0, 0.0);
-		drawCylinder(4, 0.1, 0.2);
+		drawCylinder(1, 0.1, 0.2);
 		glPopMatrix();
 
 	glPopMatrix();
@@ -199,30 +202,31 @@ void MyCreature::createTexture(int _width)
 	static int height = 0;
 
 	ModelerUserInterface* mui = ModelerApplication::Instance()->getModelerUI();
-	if (mui->textureFile == NULL)
+	if (textureImage == NULL)
 	{
-		unsigned char *image = readBMP(mui->textureFile, width, height);
-		if (image == NULL)
+		unsigned char *image;
+		if (mui->textureFile == NULL || (image = readBMP(mui->textureFile, width, height)) == NULL)
 		{
 			fl_alert("Can't load bitmap file...");
 			ModelerApplication::Instance()->SetControlValue(DRAW_TEXTURE, 0);
 			return;
 		}
-
+		textureImage = image;
 		glClearColor(0.0, 0.0, 0.0, 0.0);
 		glShadeModel(GL_FLAT);
 		glEnable(GL_DEPTH_TEST);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glGenTextures(1, &texName);
+		glBindTexture(GL_TEXTURE_2D, texName);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureImage);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	// Need modified 
 	if (_width <= 0) _width = width;
 	if (width > 0 && height > 0)
 	{

@@ -130,7 +130,6 @@ void ModelerUserInterface::cb_SavePos(Fl_Menu_* o, void* v) {
 inline void ModelerUserInterface::cb_loadTex_i(Fl_Menu_* o, void*) {
 	char *filename = NULL;
 	filename = fl_file_chooser("Open .bmp File", "*.bmp", NULL);
-
 	if (filename)
 	{
 		if (textureFile != NULL)
