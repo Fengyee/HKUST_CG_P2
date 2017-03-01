@@ -27,7 +27,7 @@ Bells and whistles:
 
         - [ ] Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.
 
-- [x]     Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) 
+- [x]   [Fengyee] Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) 
         
         ```c++
         // This is a simple quard texture and usage is:
@@ -48,9 +48,10 @@ Bells and whistles:
 
 - [ ]  [Fengyee] Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy."
 
-- [ ]  [Fengyee] Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model.
+- [ ]  [Fengyee] Add a **"Frame All"** feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model.
+>     This one can be implementated at last to calculate the cubic dimension of the modeler and translate the camera to correct location. set elevation and dolly first. and then use set look at.
 
-    - [ ]  [Fengyee] The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
+    - [x]  [Fengyee] The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
 
 - [ ] Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus.
 
