@@ -297,8 +297,8 @@ void initLSystem()
 	rules[B] = list<int>{ B, B };
 	nodeOperation[0] = make_pair(F, 1);
 	nodeOperation[1] = make_pair(F, 1);
-	nodeOperation[2] = make_pair(RL_SPLIT, 45);
-	nodeOperation[3] = make_pair(RR_SPLIT, 45);
+	nodeOperation[2] = make_pair(RL_SPLIT_PUSH, 45);
+	nodeOperation[3] = make_pair(RR_POP_SPLIT, 45);
 	LSystemVec->push_back(new LSystem(rules, base_path, nodeOperation));
 	// LSystemVec->push_back();
 }
@@ -337,7 +337,7 @@ void drawLSystem()
 					glRotated(-operation.second, 0, 1, 0);
 					glPushMatrix();
 					break;
-				case RR__POP_SPLIT:
+				case RR_POP_SPLIT:
 					glPopMatrix();
 					glRotated(operation.second, 0, 1, 0);
 					break;
