@@ -7,10 +7,25 @@
 #include <FL/gl.h>
 
 #include "modelerglobals.h"
+#include "LSystem.h"
+#include <vector>
 
+// Global variable
+vector<LSystem*> *LSystemVec = NULL;
+enum NODE_OPERATIONS {
+	F = 0, RL, RR,
+	RL_SPLIT_PUSH,
+	RR_POP_SPLIT
+};
+
+enum NODE_TYPE {
+	A = 0, B, C, D, E
+};
 // function declaration
 void initControls(ModelerControl* controls);
 void changeLight();
+void initLSystem();
+void drawLSystem();
 
 // To make a MyCreature, we inherit off of ModelerView
 class MyCreature : public ModelerView 
@@ -43,6 +58,11 @@ void MyCreature::draw()
 
 	// Change the default light source to illuminate your scene more dynamically
 	changeLight();
+
+	
+	if ((int)VAL(DISPLAY_LSYSTEM)) {
+		drawLSystem();
+	}
 
 	// draw the floor
 	setAmbientColor(.1f,.1f,.1f);
@@ -92,6 +112,8 @@ void MyCreature::draw()
 
 int main()
 {
+	initLSystem();
+
 	// Initialize the controls
 	// Constructor is ModelerControl(name, minimumvalue, maximumvalue, 
 	// stepsize, defaultvalue)
@@ -150,6 +172,11 @@ void initControls(ModelerControl* controls)
 
 	controls[DRAW_LEVEL] = ModelerControl("Level of details", 0, 5, 1, 5);
 	controls[DRAW_TEXTURE] = ModelerControl("Draw texture", 0, 1, 1, 0);
+
+	controls[DISPLAY_LSYSTEM] = ModelerControl("Display LSystem", 0, 1, 1, 0);
+	controls[LSYSTEM_TYPE] = ModelerControl("LSystem type", 1, LSystemVec->size(), 1, 1);
+	controls[LSYSTEM_ITER] = ModelerControl("LSystem Iterations", 0, 5, 1, 1);
+	controls[LS_LENGTH] = ModelerControl("LSystem Unit Length", 0, 5, 0.01f, 1);
 }
 
 void changeLight()
@@ -242,5 +269,83 @@ void MyCreature::createTexture(int _width)
 		glEnd();
 		glFlush();
 		glDisable(GL_TEXTURE_2D);
+	}
+}
+
+void initLSystem()
+{
+	list<int> base_path = list<int>{ A };
+	LSystemVec = new vector<LSystem*>;
+	map<int, list<int> > rules;
+	// rules[A] = list<int>{ A, B, A, C};
+	// rules[A] = list<int>{ A, B, A, C, A};
+	rules[A] = list<int>{ A, B, A, C, A, B, A };
+	map<int, pair<int, int> > nodeOperation;
+	nodeOperation[A] = make_pair(F, 1);
+	// nodeOperation[B] = make_pair(RR, 60);
+	nodeOperation[B] = make_pair(RL, 60);
+	nodeOperation[C] = make_pair(RR, 120);
+	LSystemVec->push_back(new LSystem(rules, base_path, nodeOperation));
+
+	rules[A] = list<int>{ A, B, A, C, A, B, A, D};
+	nodeOperation[B] = make_pair(RR, 60);
+	nodeOperation[C] = make_pair(RR, 120);
+	nodeOperation[D] = make_pair(RR, 180);
+	LSystemVec->push_back(new LSystem(rules, base_path, nodeOperation));
+	
+	rules[A] = list<int>{ B, C, A, D, A };
+	rules[B] = list<int>{ B, B };
+	nodeOperation[0] = make_pair(F, 1);
+	nodeOperation[1] = make_pair(F, 1);
+	nodeOperation[2] = make_pair(RL_SPLIT, 45);
+	nodeOperation[3] = make_pair(RR_SPLIT, 45);
+	LSystemVec->push_back(new LSystem(rules, base_path, nodeOperation));
+	// LSystemVec->push_back();
+}
+
+void drawLSystem()
+{
+	setDiffuseColor(0.13f, 0.694f, 0.298f);
+	int LSystemSelection = (int)VAL(LSYSTEM_TYPE);
+	if (LSystemSelection >= 1)
+	{
+		glPushMatrix();
+		glTranslated(-3, 0, -3);
+		glRotated(90, -1, 0, 0);
+
+		LSystem* ls = (*LSystemVec)[LSystemSelection - 1];
+		ls->generatePath((int)VAL(LSYSTEM_ITER));
+		ls->setForwardLength((int)VAL(LS_LENGTH));
+		for (std::list<int>::iterator it = ls->path->begin(); it != ls->path->end(); it++)
+		{
+			if (ls->nodeOperation.find(*it) != ls->nodeOperation.end())
+			{
+				pair<int, int> operation = ls->nodeOperation[*it];
+				switch (operation.first)
+				{
+				case F:
+					drawBox(0.05 * operation.second, 0.02, 0.02);
+					glTranslated(0.05 * operation.second, 0, 0);
+					break;
+				case RL:
+					glRotated(-operation.second, 0, 1, 0);
+					break;
+				case RR:
+					glRotated(operation.second, 0, 1, 0);
+					break;
+				case RL_SPLIT_PUSH:
+					glRotated(-operation.second, 0, 1, 0);
+					glPushMatrix();
+					break;
+				case RR__POP_SPLIT:
+					glPopMatrix();
+					glRotated(operation.second, 0, 1, 0);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		glPopMatrix();
 	}
 }
