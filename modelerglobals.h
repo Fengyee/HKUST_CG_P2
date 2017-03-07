@@ -29,8 +29,19 @@ enum SampleModelControls
 
 // Colors
 #define COLOR_RED		1.0f, 0.0f, 0.0f
-#define COLOR_GREEN		0.0f, 1.0f, 0.0f
+#define COLOR_GREEN		0.2f, 0.4f, 0.2f
 #define COLOR_BLUE		0.0f, 0.0f, 1.0f
+#define COLOR_YELLOW    1.0f, 1.0f, 0.5f
+#define COLOR_CYAN		0.6f, 0.8f, 0.4f
+#define COLOR_GRAY		0.5f, 0.5f, 0.5f
+#define COLOR_BROWN		0.6f, 0.2f, 0.2f
+#define COLOR_DARK		0.3f, 0.3f, 0.3f
+#define COLOR_WHITE		1.0f, 1.0f, 1.0f
+#define COLOR_PINK		1.0f, 0.5f, 0.5f
+#define COLOR_SKIN		1.0f, 0.8f, 0.6f
+#define COLOR_HAIR		1.0f, 0.6f, 0.2f
+#define COLOR_DEC		0.4f, 0.4f, 0.2f
+#define COLOR_WAIST		0.2f, 0.4f, 0.0f
 
 // We'll be getting the instance of the application a lot; 
 // might as well have it as a macro.

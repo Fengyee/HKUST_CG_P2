@@ -18,6 +18,7 @@ enum NODE_OPERATIONS {
 	RR_POP_SPLIT
 };
 
+
 enum NODE_TYPE {
 	A = 0, B, C, D, E
 };
@@ -68,13 +69,13 @@ void MyCreature::draw()
 	setAmbientColor(.1f,.1f,.1f);
 	setDiffuseColor(COLOR_RED);
 	glPushMatrix();
-	glTranslated(-5,0,-5);
+	glTranslated(-5, -2,-5);
 	drawBox(10,0.01f,10);
 	glPopMatrix();
 
 	// draw the sample model
 	setAmbientColor(.1f,.1f,.1f);
-	setDiffuseColor(COLOR_GREEN);
+
 	glPushMatrix();
 
 	int level_of_detail = (int)VAL(DRAW_LEVEL);
@@ -86,27 +87,349 @@ void MyCreature::draw()
 		createTexture(5);
 		glPopMatrix();
 	}
-	glPushMatrix();
-		glTranslated(-1.5, 0, -2);
-		glScaled(3, 1, 4);
+	    
+    //set variables
+	float unit_block = 0.75;
+	float body_x = 2.0;
+	float body_y = 3.0;
+	float body_z = 1.0;
+	float head = 2.0;
+	float arm_y = 1.5;
+	float arm_x = 0.9;
+	float arm_z = 1.0;
+	float foot_y = 0.5;
+	float foot_x = 0.9;
+	float foot_z = 1.1;
+	float body_init_y = -2 + unit_block * (arm_y * 2 + foot_y);
+	float body_init_x = -1 * body_y / 2 * unit_block;
+	float body_init_z = -1;
+	float thick = 0.01;
+	float hair_thick = 0.1;
+	float eye_x = 0.5;
+	float eye_y = 0.25;
+	float mouth_x = 0.5;
+	float mouth_y = 0.25;
+	float sleeve_y = 0.25;
+		// draw body
+		glPushMatrix();
+		glTranslated(body_init_x, body_init_y, body_init_z);
+
+		// waist
+		setDiffuseColor(COLOR_WAIST);
+		glPushMatrix();
+		glTranslated(0, 0.5 * unit_block, -1 * thick);
+		glScaled(body_x * unit_block, sleeve_y * unit_block, 1);
+		drawBox(1, 1, thick);
+		glTranslated(0, 0, body_z * unit_block + thick);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, thick);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(-1 * thick, 0.5 * unit_block, -1 * thick);
+		glScaled(1, sleeve_y * unit_block, body_z * unit_block);
+		drawBox(thick, 1, 1);
+		glTranslated(body_x * unit_block + thick, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(thick, 1, 1);
+		glPopMatrix();
+
+		// NECK
+		glPushMatrix();
+		glTranslated(body_x * unit_block / 2, (body_y - 0.95) * unit_block, body_z * unit_block);
+		glRotated(45, 0.0, 0.0, 1.0);
+		setDiffuseColor(COLOR_DEC);
+		glPushMatrix();
+		glTranslated(-1 * sleeve_y * unit_block, -1 * sleeve_y * unit_block, 0);
+		glScaled(sleeve_y * unit_block, 1 + sleeve_y * unit_block * 2, thick);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(-1 * sleeve_y * unit_block, -1 * sleeve_y * unit_block, 0);
+		glScaled(1 + sleeve_y * unit_block * 2, sleeve_y * unit_block, thick);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+		setDiffuseColor(COLOR_SKIN);
+		glScaled(1, 1, thick);
+		drawTriangle(1, 0, 0, 0, 1, 0, 0, 0, 1);
+		glPopMatrix();
+
+		// back body
+		setDiffuseColor(COLOR_CYAN);
+		glScaled(body_x * unit_block, body_y * unit_block, body_z * unit_block);
 		drawBox(1,1,1);
 		
 		glPopMatrix();
 
-		// draw cannon
+		// draw head
+		
+		glPushMatrix();
+		glTranslated(body_init_x, body_init_y + body_y * unit_block, body_init_z - (head - body_z) / 2 * unit_block);
+		// eyes
+		glPushMatrix();
+		setDiffuseColor(COLOR_WHITE);
+		glTranslated(0.25 * unit_block, 0.75 * unit_block, head * unit_block);
+		glScaled(eye_x / 2 * unit_block, eye_y * unit_block, thick);
+		drawBox(1, 1, 1);
+		setDiffuseColor(COLOR_GREEN);
+		glTranslated(1, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+		glPushMatrix();
+		setDiffuseColor(COLOR_GREEN);
+		glTranslated((0.25+head / 2) * unit_block, 0.75 * unit_block, head * unit_block);
+		glScaled(eye_x / 2 * unit_block, eye_y * unit_block, thick);
+		drawBox(1, 1, 1);
+		setDiffuseColor(COLOR_WHITE);
+		glTranslated(1, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		// mouth
+		glPushMatrix();
+		setDiffuseColor(COLOR_PINK);
+		glTranslated(0.75 * unit_block, 0.25 * unit_block, head * unit_block);
+		glScaled(mouth_x * unit_block, mouth_y * unit_block, thick);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		// hair
+		glPushMatrix();
+		setDiffuseColor(COLOR_HAIR);
+		glTranslated(0, head * unit_block, head * unit_block);
+		glRotated(-90, 0.0, 0.0, 1.0);
+		glScaled(head / 2 * unit_block, head / 2 * unit_block, hair_thick);
+		drawTriangle(1, 0, 0, 0, 1, 0, 0, 0, 1);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(head * unit_block, head * unit_block, head * unit_block);
+		glRotated(180, 0.0, 0.0, 1.0);
+		glScaled(head / 2 * unit_block, head / 2 * unit_block, hair_thick);
+		drawTriangle(1, 0, 0, 0, 1, 0, 0, 0, 1);
+		glPopMatrix();
+		//glPushMatrix();
+		//glTranslated(0, head * 3 / 4 * unit_block, head * unit_block);
+		//glScaled(head * unit_block, head * 1 / 4 * unit_block, thick);
+		//drawBox(1, 1, 1);
+		//glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(0, 0, -1 * hair_thick);
+		glScaled(head * unit_block, head * unit_block, hair_thick);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-1 * hair_thick, head * unit_block, -1 * hair_thick);
+		glScaled(head * unit_block + 2 * hair_thick, hair_thick, head * unit_block + 2 * hair_thick);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(-1 * hair_thick, head / 2 * unit_block, -1 * hair_thick);
+		glScaled(hair_thick, head / 2 * unit_block, head * unit_block + 2 * hair_thick);
+		drawBox(1, 1, 1);
+		glTranslated(0, -1, 0);
+		glScaled(1, 1, 0.6);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		glPushMatrix();
+		glTranslated(head * unit_block, head / 2 * unit_block, -1 * hair_thick);
+		glScaled(hair_thick, head / 2 * unit_block, head * unit_block + 2 * hair_thick);
+		drawBox(1, 1, 1);
+		glTranslated(0, -1, 0);
+		glScaled(1, 1, 0.6);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		// back to head
+		glScaled(head * unit_block, head * unit_block, head * unit_block);
+		setDiffuseColor(COLOR_SKIN);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		// draw left hand
+		glPushMatrix();
+		//glTranslated(-1, 0.8, 0.75);
+		//glRotated(-90, 0.0, 1.0, 0.0);
+		//drawCylinder(0.4, 0.2, 0.2);
+
+		//glRotated(90, 0.0, 1.0, 0.0);
+		glTranslated(body_init_x - arm_x * unit_block, body_init_y + body_y * unit_block - arm_y * unit_block, body_init_z);
+		
+		// sleeve
+		setDiffuseColor(COLOR_DEC);
+		glPushMatrix();
+		glTranslated(0, 0, -1 * thick);
+		glScaled(arm_x * unit_block, sleeve_y * unit_block, 1);
+		drawBox(1, 1, thick);
+		glTranslated(0, 0, arm_z * unit_block + thick);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, thick);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(-1 * thick, 0, -1 * thick);
+		glScaled(1, sleeve_y * unit_block, arm_z * unit_block);
+		drawBox(thick, 1, 1);
+		glTranslated(arm_x * unit_block + thick, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(thick, 1, 1);
+		glPopMatrix();
+		
+		// back to upper left arm
+		setDiffuseColor(COLOR_CYAN);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		drawBox(1, 1, 1);
+
+		setDiffuseColor(COLOR_SKIN);
+
+		glTranslated(0, -1, 0);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+		// draw right hand
+		glPushMatrix();
+		//glTranslated(1.0, 0.8, 0.75);
+		//glRotated(90, 0.0, 1.0, 0.0);
+		//drawCylinder(0.4, 0.2, 0.2);
+
+		//glRotated(-90, 0.0, 1.0, 0.0);
+		
+		glTranslated(body_init_x + body_x * unit_block, body_init_y + body_y * unit_block - arm_y * unit_block, body_init_z);
+
+		// SLEEVE
+		setDiffuseColor(COLOR_DEC);
+		glPushMatrix();
+		glTranslated(0, 0, -1 * thick);
+		glScaled(arm_x * unit_block, sleeve_y * unit_block, 1);
+		drawBox(1, 1, thick);
+		glTranslated(0, 0, arm_z * unit_block + thick);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, thick);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(-1 * thick, 0, -1 * thick);
+		glScaled(1, sleeve_y * unit_block, arm_z * unit_block);
+		drawBox(thick, 1, 1);
+		glTranslated(arm_x * unit_block + thick, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(thick, 1, 1);
+		glPopMatrix();
+
+
+		// BACK TO ARM
+		setDiffuseColor(COLOR_CYAN);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		drawBox(1, 1, 1);
+
+		setDiffuseColor(COLOR_SKIN);
+
+		glTranslated(0, -1, 0);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		// draw left leg
+		glPushMatrix();
+		glTranslated(body_init_x + (body_x / 2 - arm_x) / 2 * unit_block, body_init_y - arm_y * unit_block, body_init_z);
+
+		// sleeve
+		setDiffuseColor(COLOR_DARK);
+		glPushMatrix();
+		glTranslated(0, 0, -1 * thick);
+		glScaled(arm_x * unit_block, sleeve_y * unit_block, 1);
+		drawBox(1, 1, thick);
+		glTranslated(0, 0, arm_z * unit_block + thick);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, thick);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(-1 * thick, 0, -1 * thick);
+		glScaled(1, sleeve_y * unit_block, arm_z * unit_block);
+		drawBox(thick, 1, 1);
+		glTranslated(arm_x * unit_block + thick, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(thick, 1, 1);
+		glPopMatrix();
+
+		// back to leg
+		setDiffuseColor(COLOR_BROWN);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		drawBox(1, 1, 1);
+
+		setDiffuseColor(COLOR_SKIN);
+
+		glTranslated(0, -1, 0);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, 1);
+
+		setDiffuseColor(COLOR_GRAY);
+
+		glTranslated((arm_x - foot_x) / 2, -1 * foot_y * unit_block, (arm_z - foot_z) / 2);
+		glScaled(foot_x / arm_x, foot_y / arm_y, foot_z / arm_z);
+		drawBox(1, 1, 1);
+
+		glPopMatrix();
+
+
+		// draw right leg
+		glPushMatrix();
+		glTranslated(body_init_x + body_x / 2 * unit_block + (body_x / 2 - arm_x) / 2 * unit_block, body_init_y - arm_y * unit_block, body_init_z);
+
+		// sleeve
+		setDiffuseColor(COLOR_DARK);
+		glPushMatrix();
+		glTranslated(0, 0, -1 * thick);
+		glScaled(arm_x * unit_block, sleeve_y * unit_block, 1);
+		drawBox(1, 1, thick);
+		glTranslated(0, 0, arm_z * unit_block + thick);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, thick);
+		glPopMatrix();
+		glPushMatrix();
+		glTranslated(-1 * thick, 0, -1 * thick);
+		glScaled(1, sleeve_y * unit_block, arm_z * unit_block);
+		drawBox(thick, 1, 1);
+		glTranslated(arm_x * unit_block + thick, 0, 0);
+		glScaled(1, 1, 1);
+		drawBox(thick, 1, 1);
+		glPopMatrix();
+
+		// back to leg
+		setDiffuseColor(COLOR_BROWN);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		drawBox(1, 1, 1);
+
+		setDiffuseColor(COLOR_SKIN);
+
+		glTranslated(0, -1, 0);
+		glScaled(1, 1, 1);
+		drawBox(1, 1, 1);
+
+		setDiffuseColor(COLOR_GRAY);
+
+		glTranslated((arm_x - foot_x) / 2, -1 * foot_y / arm_y, (arm_z - foot_z) / 2);
+		glScaled(foot_x / arm_x, foot_y / arm_y, foot_z / arm_z);
+		drawBox(1, 1, 1);
+
+		glPopMatrix();
+
+		/*
 		glPushMatrix();
 		glRotated(1, 0.0, 1.0, 0.0);
 		glRotated(-90, 1.0, 0.0, 0.0);
 		drawCylinder(2, 0.1, 0.1);
 
-		glTranslated(0.0, 0.0,10);
+		glTranslated(0.0, 0.0, 1);
 		drawCylinder(1, 1.0, 0.9);
 
-		glTranslated(0.0, 0.0, 0.5);
+		glTranslated(0.0, 0.0, 1);
 		glRotated(90, 1.0, 0.0, 0.0);
 		drawCylinder(1, 0.1, 0.2);
 		glPopMatrix();
-
+		*/
 	glPopMatrix();
 }
 
