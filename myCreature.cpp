@@ -153,17 +153,22 @@ void MyCreature::draw()
 		drawTriangle(1, 0, 0, 0, 1, 0, 0, 0, 1);
 		glPopMatrix();
 
-		// back body
-		setDiffuseColor(COLOR_CYAN);
-		glScaled(body_x * unit_block, body_y * unit_block, body_z * unit_block);
-		drawBox(1,1,1);
-		
-		glPopMatrix();
+
 
 		// draw head
 		
 		glPushMatrix();
-		glTranslated(body_init_x, body_init_y + body_y * unit_block, body_init_z - (head - body_z) / 2 * unit_block);
+		glTranslated(0, body_y * unit_block, -1 * (head - body_z) / 2 * unit_block);
+		glTranslated(head / 2 * unit_block, 0, head / 2 * unit_block);
+		glScaled(VAL(HEAD_WIDTH), VAL(HEAD_HEIGHT), VAL(HEAD_DEPTH));
+		glTranslated(-1 * head / 2 * unit_block, 0, -1 * head / 2 * unit_block);
+		// HEAD ROTATION IMPLEMENTATION
+		glTranslated(head / 2 * unit_block, 0, head / 2 * unit_block);
+		glRotated(VAL(HEAD_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(HEAD_ROTATION_Y), 0.0, 1.0, 0.0);
+		glRotated(VAL(HEAD_ROTATION_Z), 0.0, 0.0, 1.0);
+		glTranslated(-1 * head / 2 * unit_block, 0, -1 * head / 2 * unit_block);
+		
 		// eyes
 		glPushMatrix();
 		setDiffuseColor(COLOR_WHITE);
@@ -208,11 +213,6 @@ void MyCreature::draw()
 		glScaled(head / 2 * unit_block, head / 2 * unit_block, hair_thick);
 		drawTriangle(1, 0, 0, 0, 1, 0, 0, 0, 1);
 		glPopMatrix();
-		//glPushMatrix();
-		//glTranslated(0, head * 3 / 4 * unit_block, head * unit_block);
-		//glScaled(head * unit_block, head * 1 / 4 * unit_block, thick);
-		//drawBox(1, 1, 1);
-		//glPopMatrix();
 
 		glPushMatrix();
 		glTranslated(0, 0, -1 * hair_thick);
@@ -257,7 +257,14 @@ void MyCreature::draw()
 		//drawCylinder(0.4, 0.2, 0.2);
 
 		//glRotated(90, 0.0, 1.0, 0.0);
-		glTranslated(body_init_x - arm_x * unit_block, body_init_y + body_y * unit_block - arm_y * unit_block, body_init_z);
+		glTranslated(-1 * arm_x * unit_block, body_y * unit_block - arm_y * unit_block, 0);
+
+		// WHOLE ARM ROTATION IMPLEMENTATION
+		glTranslated(arm_x * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
+		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_Y), 0.0, 1.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_Z), 0.0, 0.0, 1.0);
+		glTranslated(-1 * arm_x * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 		
 		// sleeve
 		setDiffuseColor(COLOR_DEC);
@@ -277,18 +284,26 @@ void MyCreature::draw()
 		glScaled(1, 1, 1);
 		drawBox(thick, 1, 1);
 		glPopMatrix();
+
+		// lower left arm
+		glPushMatrix();
+		setDiffuseColor(COLOR_SKIN);
+		glTranslated(0, -1 * arm_y * unit_block, 0);
+		// lower arm rotation implementation
+		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
+		glRotated(VAL(LEFT_LOWER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
+		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		// draw left lower arm
+		drawBox(1, 1, 1);
+		glPopMatrix();
 		
 		// back to upper left arm
 		setDiffuseColor(COLOR_CYAN);
 		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
 		drawBox(1, 1, 1);
-
-		setDiffuseColor(COLOR_SKIN);
-
-		glTranslated(0, -1, 0);
-		glScaled(1, 1, 1);
-		drawBox(1, 1, 1);
 		glPopMatrix();
+
 		// draw right hand
 		glPushMatrix();
 		//glTranslated(1.0, 0.8, 0.75);
@@ -297,8 +312,14 @@ void MyCreature::draw()
 
 		//glRotated(-90, 0.0, 1.0, 0.0);
 		
-		glTranslated(body_init_x + body_x * unit_block, body_init_y + body_y * unit_block - arm_y * unit_block, body_init_z);
+		glTranslated(body_x * unit_block, body_y * unit_block - arm_y * unit_block, 0);
 
+		// WHOLE ARM ROTATION IMPLEMENTATION
+		glTranslated(0, arm_y * unit_block, arm_z / 2 * unit_block);
+		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_Y), 0.0, 1.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_Z), 0.0, 0.0, 1.0);
+		glTranslated(0, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 		// SLEEVE
 		setDiffuseColor(COLOR_DEC);
 		glPushMatrix();
@@ -318,22 +339,36 @@ void MyCreature::draw()
 		drawBox(thick, 1, 1);
 		glPopMatrix();
 
+		// lower right arm
+		glPushMatrix();
+		setDiffuseColor(COLOR_SKIN);
+
+		glTranslated(0, -1 * arm_y * unit_block, 0);
+		// lower arm rotation implementation
+		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
+		glRotated(VAL(RIGHT_LOWER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
+		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		// draw right lower arm
+		drawBox(1, 1, 1);
+		glPopMatrix();
 
 		// BACK TO ARM
 		setDiffuseColor(COLOR_CYAN);
 		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
 		drawBox(1, 1, 1);
-
-		setDiffuseColor(COLOR_SKIN);
-
-		glTranslated(0, -1, 0);
-		glScaled(1, 1, 1);
-		drawBox(1, 1, 1);
 		glPopMatrix();
 
 		// draw left leg
 		glPushMatrix();
-		glTranslated(body_init_x + (body_x / 2 - arm_x) / 2 * unit_block, body_init_y - arm_y * unit_block, body_init_z);
+		glTranslated((body_x / 2 - arm_x) / 2 * unit_block, -1 * arm_y * unit_block, 0);
+
+		// WHOLE LEG ROTATION IMPLEMENTATION
+		glTranslated(arm_x * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
+		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_Y), 0.0, 1.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_Z), 0.0, 0.0, 1.0);
+		glTranslated(-1 * arm_x * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		// sleeve
 		setDiffuseColor(COLOR_DARK);
@@ -354,29 +389,48 @@ void MyCreature::draw()
 		drawBox(thick, 1, 1);
 		glPopMatrix();
 
+		// left lower leg
+		glPushMatrix();
+		glTranslated(0, -1 * arm_y * unit_block, 0);
+		// lower leg rotation implementation
+		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z * unit_block);
+		glRotated(VAL(LEFT_LOWER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
+		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z * unit_block);
+
+		// left foot
+		glPushMatrix();
+		setDiffuseColor(COLOR_GRAY);
+		glTranslated((arm_x - foot_x) / 2 * unit_block, -1 * foot_y * unit_block, (arm_z - foot_z) / 2 * unit_block);
+		// foot rotation implementation
+		glTranslated(foot_x / 2 * unit_block, foot_y * unit_block, foot_z / 2 * unit_block);
+		glRotated(VAL(LEFT_FOOT_ROTATION_X), 1.0, 0.0, 0.0);
+		glTranslated(-1 * foot_x / 2 * unit_block, -1 * foot_y * unit_block, -1 * foot_z / 2 * unit_block);
+		glScaled(foot_x * unit_block, foot_y * unit_block, foot_z * unit_block);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		setDiffuseColor(COLOR_SKIN);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
 		// back to leg
 		setDiffuseColor(COLOR_BROWN);
 		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
 		drawBox(1, 1, 1);
-
-		setDiffuseColor(COLOR_SKIN);
-
-		glTranslated(0, -1, 0);
-		glScaled(1, 1, 1);
-		drawBox(1, 1, 1);
-
-		setDiffuseColor(COLOR_GRAY);
-
-		glTranslated((arm_x - foot_x) / 2, -1 * foot_y * unit_block, (arm_z - foot_z) / 2);
-		glScaled(foot_x / arm_x, foot_y / arm_y, foot_z / arm_z);
-		drawBox(1, 1, 1);
-
 		glPopMatrix();
 
 
 		// draw right leg
 		glPushMatrix();
-		glTranslated(body_init_x + body_x / 2 * unit_block + (body_x / 2 - arm_x) / 2 * unit_block, body_init_y - arm_y * unit_block, body_init_z);
+		glTranslated(body_x / 2 * unit_block + (body_x / 2 - arm_x) / 2 * unit_block, -1 * arm_y * unit_block, 0);
+
+		// WHOLE LEG ROTATION IMPLEMENTATION
+		glTranslated(arm_x * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
+		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_Y), 0.0, 1.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_Z), 0.0, 0.0, 1.0);
+		glTranslated(-1 * arm_x * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		// sleeve
 		setDiffuseColor(COLOR_DARK);
@@ -397,25 +451,43 @@ void MyCreature::draw()
 		drawBox(thick, 1, 1);
 		glPopMatrix();
 
+		glPushMatrix();
+		glTranslated(0, -1 * arm_y * unit_block, 0);
+		// lower leg rotation implementation
+		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z * unit_block);
+		glRotated(VAL(RIGHT_LOWER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
+		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z * unit_block);
+
+		// right foot
+		glPushMatrix();
+		setDiffuseColor(COLOR_GRAY);
+		glTranslated((arm_x - foot_x) / 2 * unit_block, -1 * foot_y * unit_block, (arm_z - foot_z) / 2 * unit_block);
+		// foot rotation implementation
+		glTranslated(foot_x / 2 * unit_block, foot_y * unit_block, foot_z / 2 * unit_block);
+		glRotated(VAL(RIGHT_FOOT_ROTATION_X), 1.0, 0.0, 0.0);
+		glTranslated(-1 * foot_x / 2 * unit_block, -1 * foot_y * unit_block, -1 * foot_z / 2 * unit_block);
+		glScaled(foot_x * unit_block, foot_y * unit_block, foot_z * unit_block);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
+		setDiffuseColor(COLOR_SKIN);
+		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
+		drawBox(1, 1, 1);
+		glPopMatrix();
+
 		// back to leg
 		setDiffuseColor(COLOR_BROWN);
 		glScaled(arm_x * unit_block, arm_y * unit_block, arm_z * unit_block);
 		drawBox(1, 1, 1);
+		glPopMatrix();
 
-		setDiffuseColor(COLOR_SKIN);
 
-		glTranslated(0, -1, 0);
-		glScaled(1, 1, 1);
-		drawBox(1, 1, 1);
-
-		setDiffuseColor(COLOR_GRAY);
-
-		glTranslated((arm_x - foot_x) / 2, -1 * foot_y / arm_y, (arm_z - foot_z) / 2);
-		glScaled(foot_x / arm_x, foot_y / arm_y, foot_z / arm_z);
+		// back body
+		setDiffuseColor(COLOR_CYAN);
+		glScaled(body_x * unit_block, body_y * unit_block, body_z * unit_block);
 		drawBox(1, 1, 1);
 
 		glPopMatrix();
-
 		/*
 		glPushMatrix();
 		glRotated(1, 0.0, 1.0, 0.0);
@@ -484,10 +556,12 @@ void initControls(ModelerControl* controls)
 	controls[LEFT_UPPER_LEG_ROTATION_Y] = ModelerControl("Right leg rotation Y", -90, 90, 0.01f, 0);
 	controls[LEFT_UPPER_LEG_ROTATION_Z] = ModelerControl("Right leg rotation Z", -180, 180, 0.01f, 0);
 	controls[LEFT_LOWER_LEG_ROTATION_X] = ModelerControl("Right lower leg rotation X", 0, 120, 0.01f, 0);
+	controls[LEFT_FOOT_ROTATION_X] = ModelerControl("Right foot rotation X", -30, 30, 0.01f, 0);
 	controls[RIGHT_UPPER_LEG_ROTATION_X] = ModelerControl("Left leg rotation X", -120, 50, 0.01f, 0);
 	controls[RIGHT_UPPER_LEG_ROTATION_Y] = ModelerControl("Left leg rotation Y", -90, 90, 0.01f, 0);
 	controls[RIGHT_UPPER_LEG_ROTATION_Z] = ModelerControl("Left leg rotation Z", -180, 180, 0.01f, 0);
 	controls[RIGHT_LOWER_LEG_ROTATION_X] = ModelerControl("Left lower leg rotation X", 0, 120, 0.01f, 0);
+	controls[RIGHT_FOOT_ROTATION_X] = ModelerControl("Left foot rotation X", -30, 30, 0.01f, 0);
 
 	controls[WAIST_ROTATION_X] = ModelerControl("Waist rotation X", -90, 90, 0.01f, 0);
 	controls[WAIST_ROTATION_Y] = ModelerControl("Waist rotation Y", -90, 90, 0.01f, 0);
