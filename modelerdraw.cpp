@@ -378,6 +378,64 @@ void drawCylinder( double h, double r1, double r2 )
     }
     
 }
+
+void drawTorus(double r1, double r2)
+{
+	ModelerDrawState *mds = ModelerDrawState::Instance();
+	int divisions;
+
+	_setupOpenGl();
+
+	switch (mds->m_quality)
+	{
+	case HIGH:
+		divisions = 32; break;
+	case MEDIUM:
+		divisions = 20; break;
+	case LOW:
+		divisions = 12; break;
+	case POOR:
+		divisions = 8; break;
+	}
+
+	if (mds->m_rayFile)
+	{
+		_dump_current_modelview();
+		fprintf(mds->m_rayFile,
+			"torus { outer_radius=%f; inner_radius=%f;\n", r1, r2);
+		_dump_current_material();
+		fprintf(mds->m_rayFile, "})\n");
+	}
+	else
+	{
+		/* save the current matrix mode. */
+		int savemode;
+		glGetIntegerv(GL_MATRIX_MODE, &savemode);
+
+		/* translate the origin to the other end of the cylinder. */
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		GLUquadricObj* gluq;
+		for (int i = 0; i < 360; i++)
+		{
+			
+			gluq = gluNewQuadric();
+			gluQuadricDrawStyle(gluq, GLU_FILL);
+			gluQuadricTexture(gluq, GL_TRUE);
+			glTranslated( -1 * (r1 - (r2 / 2)), 0, 0);
+			glRotated(1, 0.0, 1.0, 0.0);
+			glTranslated(r1 - (r2 / 2), 0, 0);
+			gluSphere(gluq, r1 - r2, divisions, divisions);
+			gluDeleteQuadric(gluq);
+			
+		}
+		/* restore the matrix stack and mode. */
+		glPopMatrix();
+		glMatrixMode(savemode);
+
+	}
+}
+
 void drawTriangle( double x1, double y1, double z1,
                    double x2, double y2, double z2,
                    double x3, double y3, double z3 )

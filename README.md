@@ -42,18 +42,18 @@ Bells and whistles:
         }
         ```
 
-    - [ ]  [Fengyee] Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them.
+    - [x]  [ZhaoLucen] Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them.
 
         - [ ]  [Fengyee] Make an additional "animated" sequence your character can perform.  Although you can try to use a timed callback "add_idle" (see here for more information), an easier solution is just to increment values each time your model's draw() function is called. If you use the menu option to turn on animation, your draw() function will be executed at around 30 times per second.
 
-- [ ]  [Fengyee] Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy."
+- [x]  [ZhaoLucen] Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy."
 
 - [ ]  [Fengyee] Add a **"Frame All"** feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model.
 >     This one can be implementated at last to calculate the cubic dimension of the modeler and translate the camera to correct location. set elevation and dolly first. and then use set look at.
 
     - [x]  [Fengyee] The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
 
-- [ ] Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus.
+- [x]  [ZhaoLucen] Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus. (Torus drawn)
 
 - [x]  [Fengyee]  (Variable) Use some sort of procedural modeling (such as an L-system) to generate all or part of your character. Have parameters of the procedural modeler controllable by the user via control widgets.
 

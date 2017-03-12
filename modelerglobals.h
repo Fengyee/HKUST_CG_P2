@@ -24,7 +24,8 @@ enum SampleModelControls
 	WAIST_ROTATION_X, WAIST_ROTATION_Y, WAIST_ROTATION_Z,
 	DRAW_LEVEL, DRAW_TEXTURE,
 	DISPLAY_LSYSTEM, LSYSTEM_TYPE, LSYSTEM_ITER, LS_LENGTH,
-	NUMCONTROLS
+	HAVE_HAT, MIKU_CLOTHES, MIKU_SHOES, MIKU_HAIR,
+	NUMCONTROLS,
 };
 
 // Colors
@@ -42,6 +43,10 @@ enum SampleModelControls
 #define COLOR_HAIR		1.0f, 0.6f, 0.2f
 #define COLOR_DEC		0.4f, 0.4f, 0.2f
 #define COLOR_WAIST		0.2f, 0.4f, 0.0f
+#define COLOR_HAT		0.8f, 0.4f, 0.2f
+#define COLOR_BLACK		0.1f, 0.1f, 0.1f
+#define COLOR_MIKU      0.4f, 0.6f, 0.6f
+#define COLOR_RIBBON    0.6f, 0.2f, 0.6f
 
 // We'll be getting the instance of the application a lot; 
 // might as well have it as a macro.
