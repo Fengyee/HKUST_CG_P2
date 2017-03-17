@@ -57,7 +57,7 @@ Bells and whistles:
 
 - [x]  [Fengyee]  (Variable) Use some sort of procedural modeling (such as an L-system) to generate all or part of your character. Have parameters of the procedural modeler controllable by the user via control widgets.
 
-    - [ ]  In addition to mood cycling, have your character react differently to UI controls depending on what mood they are in.  Again, there is some weight in this item because the character reactions are supposed to make sense in a story telling way.  Think about the mood that the character is in, think about the things that you might want the character to do, and then provide a means for expressing and controlling those actions.
+    - [x]  In addition to mood cycling, have your character react differently to UI controls depending on what mood they are in.  Again, there is some weight in this item because the character reactions are supposed to make sense in a story telling way.  Think about the mood that the character is in, think about the things that you might want the character to do, and then provide a means for expressing and controlling those actions.
 
 - [ ] One difficulty with hierarchical modeling using primitives is the difficulty of building "organic" shapes. It's difficult, for instance, to make a convincing looking human arm because you can't really show the bending of the skin and bulging of the muscle using cylinders and spheres. There has, however, been success in building organic shapes using metaballs. Implement your hierarchical model and "skin" it with metaballs. Hint: look up "marching cubes" and "marching tetrahedra" --these are two commonly used algorithms for volume rendering. Here is a demo application by Joe Hall and Eugene Hsu that shows metaballs in action.
 
