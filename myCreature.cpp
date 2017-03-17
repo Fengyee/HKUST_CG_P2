@@ -212,9 +212,9 @@ void MyCreature::draw()
 		glTranslated(-1 * head / 2 * unit_block, 0, -1 * head / 2 * unit_block);
 		// HEAD ROTATION IMPLEMENTATION
 		glTranslated(head / 2 * unit_block, 0, head / 2 * unit_block);
-		glRotated(VAL(HEAD_ROTATION_X), 1.0, 0.0, 0.0);
-		glRotated(VAL(HEAD_ROTATION_Y), 0.0, 1.0, 0.0);
-		glRotated(VAL(HEAD_ROTATION_Z), 0.0, 0.0, 1.0);
+		glRotated(VAL(HEAD_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
+		glRotated(VAL(HEAD_ROTATION_Y) * (VAL(HAPPINESS) + 2) / 2, 0.0, 1.0, 0.0);
+		glRotated(VAL(HEAD_ROTATION_Z) * (VAL(HAPPINESS) + 2) / 2, 0.0, 0.0, 1.0);
 		glTranslated(-1 * head / 2 * unit_block, 0, -1 * head / 2 * unit_block);
 		
 		// torus
@@ -418,9 +418,9 @@ void MyCreature::draw()
 
 		// WHOLE ARM ROTATION IMPLEMENTATION
 		glTranslated(arm_x * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
-		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
-		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_Y), 0.0, 1.0, 0.0);
-		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_Z), 0.0, 0.0, 1.0);
+		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_Y) * (VAL(HAPPINESS) + 2) / 2, 0.0, 1.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_ARM_ROTATION_Z) * (VAL(HAPPINESS) + 2) / 2, 0.0, 0.0, 1.0);
 		glTranslated(-1 * arm_x * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 		
 		if (VAL(DRAW_LEVEL) > 1)
@@ -453,7 +453,7 @@ void MyCreature::draw()
 		glTranslated(0, -1 * arm_y * unit_block, 0);
 		// lower arm rotation implementation
 		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
-		glRotated(VAL(LEFT_LOWER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_LOWER_ARM_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
 		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		// lower arm sleeve
@@ -511,9 +511,9 @@ void MyCreature::draw()
 
 		// WHOLE ARM ROTATION IMPLEMENTATION
 		glTranslated(0, arm_y * unit_block, arm_z / 2 * unit_block);
-		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
-		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_Y), 0.0, 1.0, 0.0);
-		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_Z), 0.0, 0.0, 1.0);
+		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_Y) * (VAL(HAPPINESS) + 2) / 2, 0.0, 1.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_ARM_ROTATION_Z) * (VAL(HAPPINESS) + 2) / 2, 0.0, 0.0, 1.0);
 		glTranslated(0, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		if (VAL(DRAW_LEVEL) > 1)
@@ -547,7 +547,7 @@ void MyCreature::draw()
 		glTranslated(0, -1 * arm_y * unit_block, 0);
 		// lower arm rotation implementation
 		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
-		glRotated(VAL(RIGHT_LOWER_ARM_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_LOWER_ARM_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
 		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		// lower arm sleeve
@@ -599,9 +599,9 @@ void MyCreature::draw()
 
 		// WHOLE LEG ROTATION IMPLEMENTATION
 		glTranslated(arm_x * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
-		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
-		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_Y), 0.0, 1.0, 0.0);
-		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_Z), 0.0, 0.0, 1.0);
+		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_Y) * (VAL(HAPPINESS) + 2) / 2, 0.0, 1.0, 0.0);
+		glRotated(VAL(LEFT_UPPER_LEG_ROTATION_Z) * (VAL(HAPPINESS) + 2) / 2, 0.0, 0.0, 1.0);
 		glTranslated(-1 * arm_x * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		// sleeve
@@ -655,7 +655,7 @@ void MyCreature::draw()
 		glTranslated(0, -1 * arm_y * unit_block, 0);
 		// lower leg rotation implementation
 		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z * unit_block);
-		glRotated(VAL(LEFT_LOWER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_LOWER_LEG_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
 		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z * unit_block);
 
 		// left foot
@@ -667,7 +667,7 @@ void MyCreature::draw()
 		glTranslated((arm_x - foot_x) / 2 * unit_block, -1 * foot_y * unit_block, (arm_z - foot_z) / 2 * unit_block);
 		// foot rotation implementation
 		glTranslated(foot_x / 2 * unit_block, foot_y * unit_block, foot_z / 2 * unit_block);
-		glRotated(VAL(LEFT_FOOT_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(LEFT_FOOT_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
 		glTranslated(-1 * foot_x / 2 * unit_block, -1 * foot_y * unit_block, -1 * foot_z / 2 * unit_block);
 		glScaled(foot_x * unit_block, foot_y * unit_block, foot_z * unit_block);
 		drawBox(1, 1, 1);
@@ -697,9 +697,9 @@ void MyCreature::draw()
 
 		// WHOLE LEG ROTATION IMPLEMENTATION
 		glTranslated(arm_x * unit_block, arm_y * unit_block, arm_z / 2 * unit_block);
-		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
-		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_Y), 0.0, 1.0, 0.0);
-		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_Z), 0.0, 0.0, 1.0);
+		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_Y) * (VAL(HAPPINESS) + 2) / 2, 0.0, 1.0, 0.0);
+		glRotated(VAL(RIGHT_UPPER_LEG_ROTATION_Z) * (VAL(HAPPINESS) + 2) / 2, 0.0, 0.0, 1.0);
 		glTranslated(-1 * arm_x * unit_block, -1 * arm_y * unit_block, -1 * arm_z / 2 * unit_block);
 
 		// sleeve
@@ -752,7 +752,7 @@ void MyCreature::draw()
 		glTranslated(0, -1 * arm_y * unit_block, 0);
 		// lower leg rotation implementation
 		glTranslated(arm_x / 2 * unit_block, arm_y * unit_block, arm_z * unit_block);
-		glRotated(VAL(RIGHT_LOWER_LEG_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_LOWER_LEG_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2, 1.0, 0.0, 0.0);
 		glTranslated(-1 * arm_x / 2 * unit_block, -1 * arm_y * unit_block, -1 * arm_z * unit_block);
 
 		// right foot
@@ -764,7 +764,7 @@ void MyCreature::draw()
 		glTranslated((arm_x - foot_x) / 2 * unit_block, -1 * foot_y * unit_block, (arm_z - foot_z) / 2 * unit_block);
 		// foot rotation implementation
 		glTranslated(foot_x / 2 * unit_block, foot_y * unit_block, foot_z / 2 * unit_block);
-		glRotated(VAL(RIGHT_FOOT_ROTATION_X), 1.0, 0.0, 0.0);
+		glRotated(VAL(RIGHT_FOOT_ROTATION_X) * (VAL(HAPPINESS) + 2) / 2 , 1.0, 0.0, 0.0);
 		glTranslated(-1 * foot_x / 2 * unit_block, -1 * foot_y * unit_block, -1 * foot_z / 2 * unit_block);
 		glScaled(foot_x * unit_block, foot_y * unit_block, foot_z * unit_block);
 		drawBox(1, 1, 1);
@@ -891,6 +891,7 @@ void initControls(ModelerControl* controls)
 	controls[MIKU_CLOTHES] = ModelerControl("Miku Clothes", 0, 1, 1, 1);
 	controls[MIKU_SHOES] = ModelerControl("Miku Shoes", 0, 1, 1, 1);
 	controls[MIKU_HAIR] = ModelerControl("Miku Hair", 0, 1, 1, 1);
+	controls[HAPPINESS] = ModelerControl("Happiness", -2, 2, 1, 0);
 }
 
 void changeLight()
